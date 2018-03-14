@@ -9,8 +9,8 @@ import Control.Monad.IO.Class (liftIO)
 
 -- | Data type representing collection of options that the program accepts.
 
-data Options = Options
-  { serverAddr :: Maybe String
+data Options = Options {
+    serverAddr :: Maybe String
   , host :: Maybe String
   , port :: Maybe Int
   , chatName :: Maybe String

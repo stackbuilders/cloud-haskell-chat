@@ -1,7 +1,3 @@
-{-# LANGUAGE DeriveDataTypeable #-}
-{-# LANGUAGE DeriveGeneric      #-}
-{-# LANGUAGE RecordWildCards    #-}
-
 module Client where
 
 import Control.Distributed.Process.ManagedProcess.Client (callChan, cast)
@@ -44,7 +40,7 @@ launchChatClient :: ServerAddress -> Host -> Int -> ChatName -> IO ()
 launchChatClient serverAddr clientHost port name  = do
   mt <- createTransport clientHost (show port) defaultTCPParameters
   case mt of
-    Left err -> putStrLn (show err)
+    Left err -> print err
     Right transport -> do
       node <- newLocalNode transport initRemoteTable
       runChatLogger node
