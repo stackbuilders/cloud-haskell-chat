@@ -50,11 +50,11 @@ serveChatRoom host port name = do
         logStr $ "Server launched at: " ++ show (nodeAddress . processNodeId $ pId)
         register name pId
         liftIO $ forever $ threadDelay 500000
-    Left err -> putStrLn (show err)
+    Left err -> print err
 
 broadcastMessage :: ClientPortMap -> ChatMessage -> Process ()
 broadcastMessage clientPorts msg =
-  forM_ clientPorts (flip replyChan msg)
+  forM_ clientPorts (`replyChan` msg)
 
 messageHandler :: CastHandler ClientPortMap ChatMessage
 messageHandler = handler
