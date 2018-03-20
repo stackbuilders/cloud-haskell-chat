@@ -21,7 +21,7 @@ type ServerAddress = String
 
 type ClientPortMap = Map NickName (SendPort ChatMessage)
 
-data Sender = Server | Client String
+data Sender = Server | Client NickName
   deriving (Generic, Typeable, Eq, Show)
 
 instance Binary Sender
