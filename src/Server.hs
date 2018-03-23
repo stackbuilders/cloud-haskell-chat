@@ -1,6 +1,4 @@
-{-# LANGUAGE DeriveDataTypeable #-}
-{-# LANGUAGE DeriveGeneric      #-}
-{-# LANGUAGE RecordWildCards    #-}
+{-# LANGUAGE RecordWildCards #-}
 
 module Server where
 
@@ -65,15 +63,15 @@ messageHandler = handler
       continue clients
 
 joinChatHandler :: ChannelHandler ClientPortMap JoinChatMessage ChatMessage
-joinChatHandler sp = handler
+joinChatHandler sendPort = handler
   where
     handler :: ActionHandler ClientPortMap JoinChatMessage
     handler clients JoinChatMessage{..} =
       if clientName `M.member` clients
-        then replyChan sp (ChatMessage Server "Nickname already in use ... ") >> continue clients
+        then replyChan sendPort (ChatMessage Server "Nickname already in use ... ") >> continue clients
         else do
-          void $ monitorPort sp
-          let clients' = M.insert clientName sp clients
+          void $ monitorPort sendPort
+          let clients' = M.insert clientName sendPort clients
               msg = clientName ++ " has joined the chat ..."
           logStr msg
           broadcastMessage clients $ ChatMessage Server msg
