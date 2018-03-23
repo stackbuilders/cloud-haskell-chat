@@ -31,10 +31,8 @@ searchChatServer name serverAddr = do
   whereisRemoteAsync srvId name
   reply <- expectTimeout 1000
   case reply of
-    Just (WhereIsReply _ msid) -> case msid of
-      Just sid -> return sid
-      Nothing  -> searchChatServer name serverAddr
-    Nothing -> searchChatServer name serverAddr
+    Just (WhereIsReply _ (Just sid)) -> return sid
+    _ -> searchChatServer name serverAddr
 
 launchChatClient :: ServerAddress -> Host -> Int -> ChatName -> IO ()
 launchChatClient serverAddr clientHost port name  = do
